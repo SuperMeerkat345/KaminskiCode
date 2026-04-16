@@ -33,7 +33,36 @@ class GameScene: SKScene {
         player.setupConstraints(floor: foreground.frame.maxY)
         addChild(player)
         player.walk()
+        
+        spawnGloop()
+        spawnGloop()
+        spawnGloop()
     }
+    
+    // MARK: - GAME FUNCTIONS
+    
+    func spawnGloop() {
+        // create collectible
+        let collectible = Collectible(collectibleType: .gloop) // CollectibleType.gloop vs .gloop??
+        
+        // set random position
+        // this line makes sure the drop is completely visible
+        let margin = collectible.size.width * 2 // how far away from border
+        
+        let dropRange = SKRange(
+            lowerLimit: frame.minX + margin,
+            upperLimit: frame.maxX - margin
+        )
+        
+        let randomX = CGFloat.random(
+            in: dropRange.lowerLimit...dropRange.upperLimit
+        )
+        
+        collectible.position = CGPoint(x: randomX, y: player.position.y * 2.5)
+        addChild(collectible)
+    }
+    
+    
     
     // MARK: - TOUCH HANDLING
           
