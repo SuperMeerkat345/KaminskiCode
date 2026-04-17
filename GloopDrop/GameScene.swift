@@ -53,13 +53,16 @@ class GameScene: SKScene {
             lowerLimit: frame.minX + margin,
             upperLimit: frame.maxX - margin
         )
-        
         let randomX = CGFloat.random(
             in: dropRange.lowerLimit...dropRange.upperLimit
         )
-        
         collectible.position = CGPoint(x: randomX, y: player.position.y * 2.5)
+        
+        // add child to scene
         addChild(collectible)
+        
+        // run the spawning animation
+        collectible.drop(dropSpeed: TimeInterval(1.0), floorLevel: player.frame.minY)
     }
     
     
