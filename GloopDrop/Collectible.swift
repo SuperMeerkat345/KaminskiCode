@@ -62,8 +62,5 @@ class Collectible: SKSpriteNode {
         let actionSequence = SKAction.sequence([appear, scale, moveAction])
         self.run(actionSequence, withKey: "drop")
     }
-
-    
-  
 }
 

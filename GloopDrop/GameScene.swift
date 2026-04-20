@@ -13,6 +13,13 @@ class GameScene: SKScene {
     let player = Player()
     let playerSpeed: CGFloat = 1.5
     
+    var level: Int = 1               // the higher the level the faster the drop`
+    var numberOfDrops: Int = 10      //
+    
+    var dropSpeed: CGFloat = 1.0
+    var minDropSpeed: CGFloat = 0.12 // fastest drop allowed (no matter the level)
+    var maxDropSpeed: CGFloat = 1.0  // slowest drop
+    
     override func didMove(to view: SKView) {
         let background = SKSpriteNode(imageNamed: "background_1")
         background.anchorPoint = CGPoint(x: 0, y: 0)
@@ -34,12 +41,32 @@ class GameScene: SKScene {
         addChild(player)
         player.walk()
         
-        spawnGloop()
-        spawnGloop()
-        spawnGloop()
+        spawnMultipleGloops()
     }
     
     // MARK: - GAME FUNCTIONS
+    
+    func spawnMultipleGloops () {
+        // set drop speed
+        dropSpeed = 1 / (CGFloat(level) + CGFloat(level)/CGFloat(numberOfDrops)) // as level goes up, dropSpeed goes down so faster
+        
+        // bounds
+        if dropSpeed < minDropSpeed {
+            dropSpeed = minDropSpeed
+        }
+        else if dropSpeed > maxDropSpeed {
+            dropSpeed = maxDropSpeed
+        }
+        
+        // set up repeating action
+        let wait = SKAction.wait(forDuration: TimeInterval(dropSpeed))
+        let spawn = SKAction.run { [unowned self] in self.spawnGloop() }
+        let sequence = SKAction.sequence([wait, spawn])
+        let repeatAction = SKAction.repeat(sequence, count: numberOfDrops)
+        
+        // run action
+        run(repeatAction, withKey: "gloop")
+    }
     
     func spawnGloop() {
         // create collectible
