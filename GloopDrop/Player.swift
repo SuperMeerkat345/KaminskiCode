@@ -50,6 +50,11 @@ class Player: SKSpriteNode {
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size, center: CGPoint(x: 0.0, y: self.size.height/2))
         self.physicsBody?.affectedByGravity = false
         
+        // Set up physics categories for contacts
+        self.physicsBody?.categoryBitMask = PhysicsCategory.player
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.collectible
+        self.physicsBody?.collisionBitMask = PhysicsCategory.none
+
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -37,6 +37,14 @@ class Collectible: SKSpriteNode {
         // setup physics body
         self.physicsBody = SKPhysicsBody(rectangleOf: self.size, center: CGPoint(x: 0.0, y: -self.size.height/2))
         self.physicsBody?.affectedByGravity = false
+        
+        // Set up physics categories for contacts
+        self.physicsBody?.categoryBitMask = PhysicsCategory.collectible
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.foreground | PhysicsCategory.player
+        self.physicsBody?.collisionBitMask = PhysicsCategory.none
+
+
+
     }
     
     // Required init
@@ -65,6 +73,16 @@ class Collectible: SKSpriteNode {
         // the sequence of the animation
         let actionSequence = SKAction.sequence([appear, scale, moveAction])
         self.run(actionSequence, withKey: "drop")
+    }
+    
+    func collected() { // called when blob touches a drop
+        let removeFromParent = SKAction.removeFromParent()
+        self.run(removeFromParent)
+    }
+    
+    func missed() { // called when foreground hit by a collectible
+        let removeFromParent = SKAction.removeFromParent()
+        self.run(removeFromParent)
     }
 }
 
