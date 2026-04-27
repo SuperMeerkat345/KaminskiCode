@@ -22,6 +22,7 @@ enum Layer : CGFloat {
     case foreground
     case player
     case collectible
+    case ui // for score and level labels
 }
 
 extension SKSpriteNode {

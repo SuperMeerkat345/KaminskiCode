@@ -13,7 +13,16 @@ class GameScene: SKScene {
     let player = Player()
     let playerSpeed: CGFloat = 1.5
     
-    var level: Int = 1               // the higher the level the faster the drop`
+    var level: Int = 1 {           // the higher the level the faster the drop`
+        didSet {
+            levelLabel.text = "Level: \(level)"
+        }
+    }
+    var score: Int = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
     var numberOfDrops: Int = 10      // num of drop possible on the screen
     
     // player movement
@@ -23,6 +32,9 @@ class GameScene: SKScene {
     var dropSpeed: CGFloat = 1.0
     var minDropSpeed: CGFloat = 0.12 // fastest drop allowed (no matter the level)
     var maxDropSpeed: CGFloat = 1.0  // slowest drop
+    
+    var scoreLabel: SKLabelNode = SKLabelNode()
+    var levelLabel: SKLabelNode = SKLabelNode()
     
     override func didMove(to view: SKView) {
         physicsWorld.contactDelegate = self
